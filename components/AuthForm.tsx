@@ -7,18 +7,24 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
+import Image from "next/image"
+import { error } from "console"
+import Link from "next/link"
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 })
 type FormType = "sign-in" | "sign-up"
 const AuthForm = ({type}:{type: FormType}) => {
+const [isLoading, setIsLoading]=useState(false)
+const [errorMessage, setErrorMessage]=useState("")
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,25 +44,57 @@ const AuthForm = ({type}:{type: FormType}) => {
         <h1 className="form-title">
           {type === "sign-in" ? "Sign-In" : "Sign-Up" }
         </h1>
+        {type === "sign-up" && (
         <FormField
           control={form.control}
-          name="username"
+          name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <div className="shad-form-item">
+              <FormLabel className="shad-form-label">Full Name</FormLabel>
+
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Enter your full name" {...field} className="shad-input"/>
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
+              </div>
+              <FormMessage className="shad-form-message" />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        )}
+                <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <div className="shad-form-item">
+              <FormLabel className="shad-form-label">Email</FormLabel>
+
+              <FormControl>
+                <Input placeholder="Enter your Email" {...field} className="shad-input"/>
+              </FormControl>
+              </div>
+              <FormMessage className="shad-form-message" />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="form-submit-button" disabled={isLoading}>
+          {type === "sign-in" ? "Sign-In" : "Sign-Up" }
+          {isLoading && (
+            <Image src="/assets/icons/loader.svg" alt="" width={20} height={20} className="ml-2 animate-spin" />
+          )}
+        </Button>
+        {errorMessage  &&  <p className="error-message">{errorMessage}</p>}
+        <div className="body-2 flex justify-center">
+          <p>
+           {type === "sign-in" ? "Don't have account" : "Already have a account" }
+          </p>
+          <Link href= {type === "sign-in" ? "/register" : "/login" } className="ml-2 font-medium text-brand"> 
+          {type === "sign-in" ? "Sign-up" : "Sign-in" }</Link>
+        </div>
       </form>
     </Form>
+    otp verification
     </>
   )
 
