@@ -1,14 +1,13 @@
+"use client"
 import React, { useState } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import {
   InputOTP,
@@ -19,7 +18,10 @@ import {
 import Image from 'next/image'
 import { Flashlight } from 'lucide-react'
 import { Button } from './ui/button'
+import { sendEmailOTP, verifySecret } from '@/lib/actions/users.actions'
+import { useRouter } from 'next/navigation'
 const OtpModel = ({accountId,email}:{accountId:string,email:string}) => {
+const router= useRouter()
 const [isOpen, setIsOpen]=useState(true)
 const [password, setPassword]=useState('')
 const [isLoading, setIsLoading]=useState(false)
@@ -30,6 +32,8 @@ const handleSubmit=async(e:React.MouseEvent<HTMLButtonElement>)=>{
 
     try {
       // verify otp API
+      const sessionId= await verifySecret({accountId, password})
+      if(sessionId) router.push('/')
     } catch (error) {
       console.log("Failed to verify OTP",error);
       
@@ -39,6 +43,7 @@ const handleSubmit=async(e:React.MouseEvent<HTMLButtonElement>)=>{
 
 const handleResendOtp=async()=>{
   // call api to resend the otp
+  await sendEmailOTP({email})
 }
 
   return (

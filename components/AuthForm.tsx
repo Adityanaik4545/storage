@@ -114,7 +114,7 @@ const formSchema= authFormSchema(type)
         </div>
       </form>
     </Form>
-    {true && (
+    {accountId && (
       <OtpModel email={form.getValues("email")} accountId={accountId} /> 
       )}
     </>
