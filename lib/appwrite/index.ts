@@ -23,7 +23,6 @@ export const createSessionClient=async()=>{
     }
 }
 export const createAdminClient=async()=>{
-    console.log("Appwrite Config:", appwriteconfig);
     const client = new Client()
     .setEndpoint(appwriteconfig.endpointUrl)
     .setProject(appwriteconfig.projectId)
