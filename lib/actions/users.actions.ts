@@ -7,6 +7,7 @@ import { parseStringyfy } from "../utils"
 import { cookies } from "next/headers"
 import { Session } from "inspector/promises"
 import path from "path"
+import { avatarPlaceHolderUrl } from "@/constants/constant"
 
 const getUserByEmail = async(email:string) =>{
     const {databases}= await createAdminClient()
@@ -46,7 +47,7 @@ if(!accountId) throw new Error("Failed to send OTP")
             {
                 fullName,
                 email,
-                avatar:"https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
+                avatar:avatarPlaceHolderUrl,
                 accountId,
             }
         )
