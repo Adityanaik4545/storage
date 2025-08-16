@@ -8,6 +8,8 @@ import { cookies } from "next/headers"
 import { Session } from "inspector/promises"
 import path from "path"
 import { avatarPlaceHolderUrl } from "@/constants/constant"
+import { redirect } from "next/navigation"
+import { error } from "console"
 
 const getUserByEmail = async(email:string) =>{
     const {databases}= await createAdminClient()
@@ -87,4 +89,30 @@ export const getCurrentUser=async()=>{
     if(user.total <= 0) return null;
     return parseStringyfy(user.documents[0]);
 
+}
+
+export const signOutUser=async()=>{
+    const {account} = await createSessionClient();
+    try {
+        await account.deleteSession("current");
+        (await cookies()).delete("appwrite-session")
+    } catch (error) {
+        handleError(error, "Failed to signout user")
+    }
+    finally{
+        redirect("/login");
+    }
+}
+
+export const signInUser = async({email}:{email:string}) =>{
+    try {
+        const existingUser = await getUserByEmail(email);
+        if(existingUser){
+            await sendEmailOTP({email});
+            return parseStringyfy({accountId:existingUser.accountId});
+        }
+        return parseStringyfy({accountId:null, error: "user not found"})
+    } catch (error) {
+        handleError(error, "failed to signin user")
+    }
 }

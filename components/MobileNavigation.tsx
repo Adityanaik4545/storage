@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { navItems } from '@/constants/constant'
 import FileUpload from './FileUpload'
+import { signOutUser } from '@/lib/actions/users.actions'
 
 interface Props{
   fullName:string,
@@ -25,11 +26,12 @@ interface Props{
 }
 
 const MobileNavigation = ({fullName, avatar, email, ownerId, accountId}:Props) => {
+  const [open, setOpen]=useState(false)
   const pathName=usePathname()
   return (
     <header className='mobile-header'>
       <Image src="assets/icons/logo-full-brand.svg" alt='logo' width={120} height={52} className='h-auto' />
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
   <SheetTrigger>
     <Image src='assets/icons/menu.svg' alt='search' width={30} height={30} />
   </SheetTrigger>
@@ -61,7 +63,7 @@ const MobileNavigation = ({fullName, avatar, email, ownerId, accountId}:Props) =
         <Separator className='mb-5 bg-light-200/20'/>
         <div className='flex flex-col justify-between gap-5 pb-5'>
         <FileUpload/>
-                  <button type='submit' className='mobile-sign-out-button' onClick={()=>{}}>
+                  <button type='submit' className='mobile-sign-out-button' onClick={async()=>await signOutUser()}>
                     <Image src="assets/icons/logout.svg" width={24} height={24} alt='logout' />
                     <p>Logout</p>
                   </button>
