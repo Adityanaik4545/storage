@@ -27,3 +27,4 @@ export const navItems = [
 ];
 
 export const avatarPlaceHolderUrl= "https://cdn-icons-png.flaticon.com/512/6596/6596121.png";
+export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
