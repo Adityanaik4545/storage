@@ -1,6 +1,6 @@
 export const appwriteconfig = {
     endpointUrl: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
-    projectId: process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!,
+    projectId: process.env.NEXT_PUBLIC_APPWRITE_PROJECT!,
     databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE!,
     userCollectionId: process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION!,
     fileCollectionId: process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION!,

@@ -71,16 +71,12 @@ export const getFiles = async() =>{
         if(!currentUser) throw new Error("User not found !");
         
         const queries = createQueries(currentUser);
-
-        console.log({currentUser, queries});
-        
         
         const files = await databases.listDocuments(
             appwriteconfig.databaseId,
             appwriteconfig.fileCollectionId,
             queries,
         )
-        console.log({files});
         return parseStringyfy(files)
     } catch (error) {
         handleError(error, "failed to get files!")
