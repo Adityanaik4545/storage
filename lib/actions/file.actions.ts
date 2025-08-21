@@ -82,3 +82,25 @@ export const getFiles = async() =>{
         handleError(error, "failed to get files!")
     }
 }
+
+export const renameFile = async({fileId, name, extension, path}:RenameFileProps) =>{
+
+    const {databases} = await createAdminClient();
+
+try {
+        const newName = `${name}.${extension}`;
+        const updatedFile = await databases.updateDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.fileCollectionId,
+            fileId,
+            {
+                name: newName
+            },
+        );
+        revalidatePath(path);
+        return parseStringyfy(updatedFile)
+        
+} catch (error) {
+    handleError(error, "failed to rename file!")
+}
+}
