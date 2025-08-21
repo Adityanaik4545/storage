@@ -4,6 +4,7 @@ import React from 'react'
 import Thumbnail from './Thumbnail'
 import { convertFileSize } from '@/lib/utils'
 import FormattedDateTime from './FormattedDateTime'
+import ActionDropDown from './ActionDropDown'
 
 const Cards = ({file}:{file: Models.Document}) => {
   return (
@@ -12,7 +13,7 @@ const Cards = ({file}:{file: Models.Document}) => {
         <Thumbnail type={file.type} url={file.url} extension={file.extension} className='!size-20' imageClassName='!size-11' />
 
         <div className='flex flex-col items-end justify-between'>
-          actiondrop
+          <ActionDropDown file={file} />
           <p className='body-1'>
             {convertFileSize(file.size)}
           </p>
