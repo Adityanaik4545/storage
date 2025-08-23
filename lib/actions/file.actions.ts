@@ -124,3 +124,26 @@ try {
     handleError(error, "failed to update file user!")
 }
 }
+export const deleteFile = async({fileId, bucketFileId, path}:DeleteFileProps) =>{
+
+    const {databases, storage} = await createAdminClient();
+
+try {
+        const deleteFile = await databases.deleteDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.fileCollectionId,
+            fileId,
+        );
+        if(deleteFile){
+            await storage.deleteFile(
+                appwriteconfig.bucketId,
+                bucketFileId
+            )
+        }
+        revalidatePath(path);
+        return parseStringyfy({status:'success'})
+        
+} catch (error) {
+    handleError(error, "failed to update file user!")
+}
+}
