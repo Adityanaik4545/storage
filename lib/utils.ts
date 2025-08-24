@@ -25,6 +25,21 @@ export const convertFileSize = (sizeInBytes: number, digits?: number) => {
   }
 };
 
+export const getFileTypesParams = (type: string) => {
+  switch (type) {
+    case 'documents':
+      return ['document'];
+    case 'images':
+      return ['image'];
+    case 'media':
+      return ['video', 'audio'];
+    case 'others':
+      return ['other'];
+    default:
+      return ['document'];
+  }
+};
+
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 
 export const getFileType = (fileName: string) => {
