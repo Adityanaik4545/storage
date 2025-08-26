@@ -7,6 +7,9 @@ import FormattedDateTime from './FormattedDateTime'
 import ActionDropDown from './ActionDropDown'
 
 const Cards = ({file}:{file: Models.Document}) => {
+  // fullname not getting displayed
+  console.log("this file owner"+file.owner.fullName);
+  console.log("file:", file);
   return (
     <Link href={file.url} target='_blank' className='file-card'>
       <div className='flex justify-between'>

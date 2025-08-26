@@ -25,7 +25,7 @@ const Search = () => {
       if (debounceQuery.length===0) {
         setResults([]);
         setOpen(false);
-        return router.push(path.replace(searchParams.toString()," "))
+        return router.push(path.replace(searchParams.toString(),""))
       }
       const files = await getFiles({ types:[], searchText: debounceQuery });
       setResults(files.documents);
