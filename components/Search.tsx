@@ -7,30 +7,32 @@ import { getFiles } from '@/lib/actions/file.actions'
 import { Models } from 'node-appwrite'
 import Thumbnail from './Thumbnail'
 import FormattedDateTime from './FormattedDateTime'
-import { file } from 'zod'
+import { useDebounce } from 'use-debounce';
+
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
-  const [results, setResults] = useState<Models.Document[]>([])
+  const [results, setResults] = useState<Models.Document[]>([]);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const path = usePathname()
+   const [debounceQuery] = useDebounce(query, 1000);
 
   useEffect(() => {
     const fetchFiles = async () => {
-      if (!query) {
-        setResults([])
-        setOpen(false)
+      if (debounceQuery.length===0) {
+        setResults([]);
+        setOpen(false);
         return router.push(path.replace(searchParams.toString()," "))
       }
-      const files = await getFiles({ searchText: query });
+      const files = await getFiles({ types:[], searchText: debounceQuery });
       setResults(files.documents);
       setOpen(true);
     }
     fetchFiles();
-  }, [query])
+  }, [debounceQuery])
 
   useEffect(() => {
     if (!searchQuery) {
