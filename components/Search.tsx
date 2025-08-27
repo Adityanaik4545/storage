@@ -13,12 +13,12 @@ import { useDebounce } from 'use-debounce';
 const Search = () => {
   const [query, setQuery] = useState("");
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("query") || "";
+  const searchQuery = searchParams.get("query") || " ";
   const [results, setResults] = useState<Models.Document[]>([]);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const path = usePathname()
-   const [debounceQuery] = useDebounce(query, 1000);
+  const [debounceQuery] = useDebounce(query, 1000);
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -44,7 +44,7 @@ const Search = () => {
       setOpen(false);
       setResults([]);
 
-      router.push(`/${file.type==="video" || file.type==="audio" ?"media":file.type + "s"}?query=${query}`)
+      router.push(`/${file.type==="video" || file.type==="audio" ? "media":file.type + "s"}?query=${query}`)
   }
 
   return (<div className='search' >
