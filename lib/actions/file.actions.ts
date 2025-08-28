@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import {InputFile} from "node-appwrite/file"
 import { appwriteconfig } from "../appwrite/config";
 import { ID, Models, Query } from "node-appwrite";
@@ -163,8 +163,8 @@ export async function getTotalSpaceUsed() {
     if (!currentUser) throw new Error("User is not authenticated.");
 
     const files = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appwriteconfig.databaseId,
+      appwriteconfig.fileCollectionId,
       [Query.equal("owner", [currentUser.$id])],
     );
 
@@ -191,7 +191,7 @@ export async function getTotalSpaceUsed() {
       }
     });
 
-    return parseStringify(totalSpace);
+    return parseStringyfy(totalSpace);
   } catch (error) {
     handleError(error, "Error calculating total space used:, ");
   }
